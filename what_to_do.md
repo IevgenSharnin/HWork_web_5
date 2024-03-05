@@ -1,5 +1,16 @@
 Домашнє завдання #5
 
+ЗРОБЛЕНО
+Основна обов'язкова частина
+Перший пункт із додаткової частини із додаванням валют
+
+Стартуємо програму через pipenv:
+pipenv shell
+python main days currencies, де
+ - days - кількість днів від 1 до 10, де 1 - поточний день
+ - currencies - код або коди валют, які хочемо додатково до EUR та USD
+   (AUD, AZN, BYN, CAD, CHF, CNY, CZK, DKK, GBP, GEL, HUF, ILS, JPY, KZT, MDL, PLN, SEK, SGD, TMT, TRY, UZS, XAU)
+
 ОСНОВНА ОБОВ'ЯЗКОВА ЧАСТИНА
 
 Публічне АПІ ПриватБанка (https://api.privatbank.ua/#p24/exchangeArchive) дозволяє отримати інформацію про готівку 

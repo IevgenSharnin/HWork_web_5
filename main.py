@@ -13,21 +13,22 @@ API_PB_archive = 'https://api.privatbank.ua/p24api/exchange_rates?json&date='
 CURRENCIES = ['EUR', 'USD']
 dict_rates_one_day = {}
 list_result_all_days = []
-for curr in CURRENCIES:
-    dict_rates_one_day.update ({curr: {
-                        'sale': None,
-                        'purchase': None}
-                        })
+#for curr in CURRENCIES:
+#    dict_rates_one_day.update ({curr: {
+#                        'sale': None,
+#                        'purchase': None}
+#                        })
 
 # Функція із аналізом тіла відповіді від АПІ Приватбанку
 def needed_dict (result_from_api_pb):
+    print (result_from_api_pb)
     dict_result_one_day = {}
     date = result_from_api_pb ['date']
     rates_of_day_from_result = result_from_api_pb ['exchangeRate']
 
-    for curr in dict_rates_one_day.keys():
+    for curr in CURRENCIES:
         for each_curr in rates_of_day_from_result:
-            if each_curr ['currency'] == curr:
+            if curr == each_curr ['currency']:
                 dict_rates_one_day [curr] = {'sale': each_curr ['saleRate'], 
                                      'purchase': each_curr ['purchaseRate']}
     dict_result_one_day [date] = dict_rates_one_day
@@ -65,13 +66,23 @@ def main (days_as_str):
         each_day_rates = deepcopy (each_day_rates) # deepcopy(), бо інакше міняє курси усіх днів на останній
         list_result_all_days.append (each_day_rates)
     
-    print (f'\nExchange rates of EUR and USD for {days_as_str} last days')
+    print (f'\nExchange rates of UAH to EUR and USD for {days_as_str} last days')
     print(json.dumps (list_result_all_days, ensure_ascii=False, indent=4))
 
 if __name__ == "__main__":
     if platform.system() == 'Windows':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    days = sys.argv [1]
+    try:
+        days = sys.argv [1]
+    except IndexError:
+        days = input ('Введіть ціле число днів між 1 та 10: ')
+
+    try:
+        for add_currency in sys.argv [2:]:
+            CURRENCIES.append (add_currency.upper())
+    except IndexError:
+        pass
+
     while True:
         try:
             if not (1 <= int (days) <= 10):
